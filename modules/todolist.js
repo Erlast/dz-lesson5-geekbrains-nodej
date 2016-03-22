@@ -11,10 +11,8 @@ var todolist = {
         connectionPool.getConnection(function (err, connection) {
             if (err)
                 console.error(err);
-            var i = 0;
-            connection.query('select * from taskes;', function (err, rows) {
-                i++;
-                console.log('Запись ' + i + ': ', rows);
+            connection.query('select * from tasks;', function (err, rows) {
+                callback(rows);
                 connection.release();
             });
         });
@@ -24,8 +22,7 @@ var todolist = {
             if (err)
                 console.error(err);
 
-            connection.query('insert into tasks (task,complete) values (' + task + ',"false");', function (err, rows) {
-                console.log('Запись успешно добалена ');
+            connection.query('insert into tasks (id,task,complete) values (NULL,"' + task + '","false");', function (err, rows) {
                 connection.release();
             });
         });
